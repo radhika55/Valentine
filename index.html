@@ -14,18 +14,6 @@
       font-family: "Arial", sans-serif;
       background: linear-gradient(135deg, #ff9a9e, #fad0c4);
       overflow: hidden;
-      position: relative;
-    }
-
-    /* Sparkle background */
-    body::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: url('https://i.imgur.com/5Z5V3Jw.png') repeat; /* tiny sparkle PNG */
-      opacity: 0.08;
-      z-index: 0;
     }
 
     .card {
@@ -37,13 +25,11 @@
       max-width: 350px;
       width: 90%;
       position: relative;
-      z-index: 1;
     }
 
     h1 {
       margin-bottom: 25px;
       font-size: 1.5em;
-      white-space: pre-line;
     }
 
     .buttons {
@@ -61,7 +47,6 @@
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s ease;
-      position: relative;
     }
 
     #yes {
@@ -77,7 +62,7 @@
     #no {
       background-color: #adb5bd;
       color: white;
-      position: absolute; /* for moving */
+      position: absolute; /* moving around */
     }
 
     @media (max-width: 400px) {
@@ -120,7 +105,7 @@
     noBtn.style.top = "0";
     noBtn.style.position = "relative";
 
-    // Move No button randomly when hovered
+    // No button moves randomly inside the card when hovered (original working version)
     noBtn.addEventListener("mouseover", () => {
       const cardRect = buttonsDiv.getBoundingClientRect();
       const maxX = cardRect.width - noBtn.offsetWidth;
@@ -158,9 +143,10 @@
       setTimeout(() => heart.remove(), 1000);
     });
 
-    // Typing effect for Yes message
+    // Yes button click: show message instantly + floating hearts
     yesBtn.addEventListener("click", () => {
-      document.body.innerHTML = `<div style="
+      document.body.innerHTML = `
+        <div style="
           display:flex;
           align-items:center;
           justify-content:center;
@@ -171,23 +157,11 @@
           padding:20px;
           overflow: hidden;
         ">
-        <h1 id='message'></h1>
-      </div>`;
+          <h1>Great choice, Kuku 😍💖<br>See you this Valentine’s 💌</h1>
+        </div>
+      `;
 
-      const msg = "Great choice, Kuku 😍💖\nSee you this Valentine’s 💌";
-      let i = 0;
-      const messageEl = document.getElementById("message");
-
-      function typeMsg() {
-        if(i < msg.length) {
-          messageEl.textContent = msg.slice(0, i+1);
-          i++;
-          setTimeout(typeMsg, 50);
-        }
-      }
-      typeMsg();
-
-      // Start hearts
+      // Floating hearts continuously
       setInterval(createHeart, 300);
     });
   </script>
